@@ -1,5 +1,11 @@
 
-class ObjMap extends MapBase;
+class ObjMap extends Object;
+
+CONST DEFAULT_SIZE = 10;
+CONST ENLARGE_AT = 0.75;
+CONST SHRINK_AT = 0.15;
+CONST RESIZE_MULT = 2;
+CONST RESIZE_DIV = 2;
 
 struct ObjPair
 {
@@ -13,6 +19,11 @@ struct ObjTableItem
 };
 
 var array<ObjTableItem> table;
+
+var int fill;
+
+var int it_1;
+var int it_2;
 
 
 //================================================
@@ -96,7 +107,7 @@ function Object get(String key)
 		//...
 	}
 
-	for ( map.start(); map.next(pair); map.void(); )
+	for ( map.start(); map.next(pair); map.thirdwheel(); )
 	{
 		//...
 	}
@@ -190,6 +201,18 @@ function clear()
 // Utils
 //================================================
 
+CONST HASH_START = 5381;
+
+function int hash(String key)
+{
+	local int n, i, h;
+	h = HASH_START;
+	n = Len(key);
+	for ( i=0; i<n; i++ )
+		h += (h<<5) + Asc(Mid(key,i,1));
+	return (h < 0) ? (-h) : h;
+}
+
 function resize(int newSize)
 {
 	local ObjMap newMap;
@@ -202,9 +225,12 @@ function resize(int newSize)
 
 	newMap = class'ObjMap'.static.create();
 	newMap.table.length = newSize;
-	for ( start(); next(pair); void() )
+	for ( start(); next(pair); thirdwheel() )
 		newMap.set(pair.key, pair.value);
 
 	table = newMap.table;
 	fill = newMap.fill;
 }
+
+function void() {}
+function thirdwheel() {}

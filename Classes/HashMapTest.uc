@@ -1,5 +1,6 @@
 
-class HashMapTest extends CRZMutator;
+class HashMapTest extends CRZMutator
+	DependsOn(ObjMap);
 
 function PostBeginPlay()
 {
@@ -40,7 +41,7 @@ function Test1()
 	PrintObjMap(map);
 
 	`Log("-- iterating and removing (map should shrink in the middle - expect the unexpected)");
-	for ( map.start(); map.next(p); map.void() )
+	for ( map.start(); map.next(p); map.thirdwheel() )
 	{
 		`Log("removing " $ p.key $ " => " $ (p.value != None ? String(p.value.Name) : "None"));
 		map.remove(p.key);
