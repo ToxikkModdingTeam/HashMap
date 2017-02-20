@@ -1,18 +1,11 @@
 
-class HashMapTest extends CRZMutator
-	DependsOn(StructMap);
-
-struct TestStruct extends StructMap.MappableStruct
-{
-	var float value;
-};
+class HashMapTest extends CRZMutator;
 
 function PostBeginPlay()
 {
 	Super.PostBeginPlay();
 
 	SetTimer(3.0, false, 'Test1');
-	SetTimer(6.0, false, 'Test2');
 }
 
 function Test1()
@@ -75,82 +68,3 @@ function PrintObjMap(ObjMap map)
 	}
 	`Log("]");
 }
-
-/*
-function Test2()
-{
-	local StructMap map;
-	local TestStruct p;
-	local int i;
-
-	`Log("-- creating Struct map with random stuff");
-	map = class'StructMap'.static.create();
-	p = MakeTestStruct(42);
-	map.set("forty-two", p);
-	p = MakeTestStruct(1);
-	map.set("one", p);
-	p = MakeTestStruct(2)
-	map.set("two", p);
-	p = MakeTestStruct(3);
-	map.set("three", p);
-	p = MakeTestStruct(3.1415926);
-	map.set("pi", p);
-	PrintStructMap(map);
-
-	`Log("-- deleting 'three'");
-	ClearTestStruct(p);
-	map.remove("three", p);
-	`Log("removed " $ p.key $ " => " $ p.value);
-	PrintStructMap(map);
-
-	`Log("-- deleting 'forty-two'");
-	ClearTestStruct(p);
-	map.remove("forty-two", p);
-	`Log("removed " $ p.key $ " => " $ p.value);
-	PrintStructMap(map);
-
-	`Log("-- deleting 'test'");
-	ClearTestStruct(p);
-	map.remove("test", p);
-	`Log("removed " $ p.key $ " => " $ p.value);
-
-	`Log("-- adding lots of elements for resize");
-	for ( i=20; i<40; i++ )
-	{
-		p = MakeTestStruct(i);
-		map.set("elem"$i, p);
-	}
-	PrintStructMap(map);
-
-	`Log("-- iterating and removing");
-	for ( map.start(); map.next(p); map.void() )
-	{
-		`Log("removing " $ p.key $ " => " $ p.value);
-		map.remove(p.key);
-	}
-	`Log("-- done");
-	PrintStructMap(map);
-}
-
-function TestStruct MakeTestStruct(float val)
-{
-	local TestStruct s;
-	s.value = val;
-	return s;
-}
-
-function ClearTestStruct(out TestStruct p)
-{
-	p.key = "<CLEAR>";
-	p.value = -1337;
-}
-
-function PrintStructMap(StructMap map)
-{
-	local TestStruct p;
-	`Log("size=" $ map.table.length $ " fill=" $ map.fill $ " {");
-	for ( map.start(); map.next(p); map.void() )
-		`Log("   " $ p.key $ " => " $ TestStruct(p).value);
-	`Log("}");
-}
-*/
