@@ -1,0 +1,2 @@
+
+class HashMapTestObject extends Object;
