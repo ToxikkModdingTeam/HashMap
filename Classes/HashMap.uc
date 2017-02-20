@@ -1,5 +1,5 @@
 
-class ObjMap extends Object;
+class HashMap extends Object;
 
 CONST DEFAULT_SIZE = 10;
 CONST ENLARGE_AT = 0.75;
@@ -7,18 +7,18 @@ CONST SHRINK_AT = 0.15;
 CONST RESIZE_MULT = 2;
 CONST RESIZE_DIV = 2;
 
-struct ObjPair
+struct xPair
 {
 	var String key;
 	var Object value;
 };
 
-struct ObjTableItem
+struct HashMapList
 {
-	var array<ObjPair> list;
+	var array<xPair> list;
 };
 
-var array<ObjTableItem> table;
+var array<HashMapList> table;
 
 var int fill;
 
@@ -37,10 +37,10 @@ function init()
 	fill = 0;
 }
 
-static function ObjMap create()
+static function HashMap create()
 {
-	local ObjMap map;
-	map = new(None) class'ObjMap';
+	local HashMap map;
+	map = new(None) class'HashMap';
 	map.init();
 	return map;
 }
@@ -53,7 +53,7 @@ static function ObjMap create()
 function set(String key, Object value)
 {
 	local int i,p;
-	local ObjPair pair;
+	local xPair pair;
 
 	i = hash(key) % table.length;
 	p = table[i].list.Find('key', key);
@@ -92,7 +92,7 @@ function Object get(String key)
 //================================================
 
 /*
-	local ObjPair pair;
+	local xPair pair;
 
 	map.start();
 	while ( map.hasNext() )
@@ -130,7 +130,7 @@ function bool hasNext()
 	return (it_1 < table.length && it_2 < table[it_1].list.length);
 }
 
-function bool next(out ObjPair pair)
+function bool next(out xPair pair)
 {
 	if ( hasNext() )
 	{
@@ -203,7 +203,7 @@ function clear()
 
 CONST HASH_START = 5381;
 
-function int hash(String key)
+static function int hash(String key)
 {
 	local int n, i, h;
 	h = HASH_START;
@@ -215,15 +215,15 @@ function int hash(String key)
 
 function resize(int newSize)
 {
-	local ObjMap newMap;
-	local ObjPair pair;
+	local HashMap newMap;
+	local xPair pair;
 
 	if ( newSize < DEFAULT_SIZE )
 		newSize = DEFAULT_SIZE;
 	if ( newSize == table.length )
 		return;
 
-	newMap = class'ObjMap'.static.create();
+	newMap = class'HashMap'.static.create();
 	newMap.table.length = newSize;
 	for ( start(); next(pair); thirdwheel() )
 		newMap.set(pair.key, pair.value);

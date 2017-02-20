@@ -1,6 +1,6 @@
 
 class HashMapTest extends CRZMutator
-	DependsOn(ObjMap);
+	DependsOn(HashMap);
 
 function PostBeginPlay()
 {
@@ -11,26 +11,26 @@ function PostBeginPlay()
 
 function Test1()
 {
-	local ObjMap map;
-	local ObjPair p;
+	local HashMap map;
+	local xPair p;
 	local int i;
 
 	`Log("-- creating Object map with random stuff");
-	map = class'ObjMap'.static.create();
+	map = class'HashMap'.static.create();
 	map.set("forty-two", new(None,"FortyTwo") class'HashMapTestObject');
 	map.set("blabla", new(None,"Blabla") class'HashMapTestObject');
 	map.set("pi", new(None,"3.1415926") class'HashMapTestObject');
 	map.set("null", None);
 	map.set("myself", map);
-	PrintObjMap(map);
+	PrintMap(map);
 
 	`Log("-- deleting 'null'");
 	`Log(map.remove("null"));
-	PrintObjMap(map);
+	PrintMap(map);
 
 	`Log("-- deleting 'forty-two'");
 	`Log(map.remove("forty-two"));
-	PrintObjMap(map);
+	PrintMap(map);
 
 	`Log("-- deleting 'test'");
 	`Log(map.remove("test"));
@@ -38,7 +38,7 @@ function Test1()
 	`Log("-- adding lots of elements for resize");
 	for ( i=0; i<20; i++ )
 		map.set("elem"$i, new(None,"Elem"$i) class'HashMapTestObject');
-	PrintObjMap(map);
+	PrintMap(map);
 
 	`Log("-- iterating and removing (map should shrink in the middle - expect the unexpected)");
 	for ( map.start(); map.next(p); map.thirdwheel() )
@@ -47,14 +47,14 @@ function Test1()
 		map.remove(p.key);
 	}
 	`Log("-- done");
-	PrintObjMap(map);
+	PrintMap(map);
 
 	`Log("-- clearing");
 	map.clear();
-	PrintObjMap(map);
+	PrintMap(map);
 }
 
-function PrintObjMap(ObjMap map)
+function PrintMap(HashMap map)
 {
 	local int i,p;
 	local String s;
